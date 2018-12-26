@@ -37,14 +37,17 @@ Vue.component('product', {
         <div>
         <h2>Reviews</h2>
         <p v-if="!reviews.length">There are no reviews yet.</p>
-        <ul>
-          <li v-for="review in reviews">
-          <p>{{ review.name }}</p>
-          <p>Rating: {{ review.rating }}</p>
-          <p>{{ review.review }}</p>
-          </li>
-        </ul>
-       </div>       
+        <div v-else-if="!!reviews.length">
+            <ul>
+            <li v-for="review in reviews">
+                <p>{{ review.name }}</p>
+                <p>Rating: {{ review.rating }}</p>
+                <p>{{ review.review }}</p>
+            </li>
+            </ul>
+        </div>
+       </div>    
+       <product-review @review-submitted="addReview"></product-review>            
     </div>    
     `,
     data: function() {
@@ -77,6 +80,9 @@ Vue.component('product', {
         updateProduct: function(index) {
             this.selectedVariant = index
         },
+        addReview(productReview) {
+            this.reviews.push(productReview)
+        }              
     },
     computed: {
         title() {
@@ -97,10 +103,7 @@ Vue.component('product', {
             } else {
                 return "$2.99"
             }
-        },
-        addReview(productReview) {
-            this.reviews.push(productReview)
-        }        
+        },  
     },    
     }
 );
